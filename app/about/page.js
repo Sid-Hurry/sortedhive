@@ -8,7 +8,7 @@ const page = () => {
     <div className='select-none'>
       <div className='flex justify-center my-10'>
         <Link href={"/qr"}>
-          <Image src="/logo.png" alt="SortedHive Logo" width={200} height={200} className='mix-blend-darken max-w-full h-auto' />
+          <Image src="/logoo.png" alt="SortedHive Logo" width={200} height={200} className='mix-blend-darken max-w-full h-auto' />
         </Link>
       </div>
 
