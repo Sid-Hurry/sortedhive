@@ -12,22 +12,26 @@ const QRCodeGenerator = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white px-6 sm:px-10 md:px-16 py-8 font-gill text-gray-800 select-none overflow-auto">
-      <div className="max-w-xl mx-auto text-center">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold mb-4">QR Code Generator</h1>
-        <p className="text-md md:text-lg mb-8">Paste any link or text to generate a QR code instantly.</p>
+    <div className="min-h-screen bg-white px-4 sm:px-6 md:px-10 py-10 font-gill text-gray-800 select-none">
+      <div className="max-w-xl w-full mx-auto text-center space-y-6">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold">
+          QR Code Generator
+        </h1>
+        <p className="text-base sm:text-lg">
+          Paste any link or text to generate a QR code instantly.
+        </p>
 
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Enter URL or text"
-          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-300 transition duration-300"
+          className="w-full p-3 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-slate-400 transition duration-300"
         />
 
         <button
           onClick={() => setShowQR(true)}
-          className="mt-4 bg-slate-800 hover:bg-stone-700 text-white px-6 py-2 rounded-md transition duration-300"
+          className="w-full sm:w-auto bg-slate-800 hover:bg-stone-700 text-white px-6 py-2 rounded-md transition duration-300"
         >
           Generate QR Code
         </button>
