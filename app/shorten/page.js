@@ -52,7 +52,7 @@ const Shorten = () => {
                     className='px-4 py-2 focus:outline-purple-600 rounded-md'
                     placeholder='Enter your preferred short URL text'
                     onChange={e => { setshorturl(e.target.value) }} />
-                <button onClick={generate} className='bg-purple-500 rounded-lg shadow-lg p-3 py-1 my-3 font-bold text-white cursor-pointer hover:bg-purple-600'>Generate</button>
+                <button onClick={generate} className='bg-purple-500 rounded-lg shadow-lg p-3 py-1 my-3 font-bold text-white cursor-pointer hover:bg-purple-200'>Generate</button>
             </div>
 
             {generated && <> <span className='font-bold text-lg'>Your Link </span><code><Link target="_blank" href={generated}>{generated}</Link> 
