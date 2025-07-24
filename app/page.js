@@ -28,7 +28,7 @@ export default function Home() {
         {/* === RIGHT IMAGE SIDE === */}
         <div className="flex justify-center md:justify-end">
           <Image
-            className="mix-blend-darken max-w-full h-auto"
+            className="mix-blend-darken w-64 sm:w-80 md:w-[480px] h-auto"
             src="/vecteezy_human-interactive-tech-interaction-images-of-robot-human_6552210-1-removebg-preview.png"
             alt="SortedHive Visual"
             width={480}
