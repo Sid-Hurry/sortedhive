@@ -31,11 +31,12 @@ const Shorten = () => {
                 setshorturl("")
                 console.log(result)
                 alert(result.message)
-            
             })
-            .catch((error) => console.error(error));
+            .catch((error) => {
+                console.error("Error occurred while generating short URL:", error);
+                alert("An error occurred while generating the URL. Please try again.");
+            });
     }
-
 
     return (
         <div className='mx-auto max-w-lg bg-purple-100 my-16 p-8 rounded-lg flex flex-col gap-4'>
@@ -61,4 +62,4 @@ const Shorten = () => {
     )
 }
 
-export default Shorten
+export default Shorten;
