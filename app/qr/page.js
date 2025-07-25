@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 
 const QRCodeGenerator = () => {
@@ -37,7 +37,7 @@ const QRCodeGenerator = () => {
   const showToast = (message, type) => {
     setToast({ message, visible: true, type });
     setTimeout(() => {
-      setToast({ ...toast, visible: false });
+      setToast((prev) => ({ ...prev, visible: false }));
     }, 3000);
   };
 
@@ -100,8 +100,10 @@ const QRCodeGenerator = () => {
       {/* Toast */}
       {toast.visible && (
         <div
-          className={`fixed bottom-6 right-6 px-4 py-3 rounded-md shadow-lg text-white text-sm transition-all duration-300
-            ${toast.type === "success" ? "bg-green-600" : "bg-red-600"}`}
+          className={`fixed bottom-6 right-6 max-w-xs w-auto px-4 py-3 rounded-md shadow-lg text-white text-sm transition-all duration-300
+            bg-slate-800 border-l-4 ${
+              toast.type === "success" ? "border-l-green-400" : "border-l-orange-400"
+            }`}
         >
           {toast.message}
         </div>
