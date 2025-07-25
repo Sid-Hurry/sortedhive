@@ -1,14 +1,26 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 
 const QRCodeGenerator = () => {
   const [input, setInput] = useState("");
   const [showQR, setShowQR] = useState(false);
+  const qrRef = useRef(null);
 
   const handleClear = () => {
     setInput("");
     setShowQR(false);
+  };
+
+  const handleDownload = () => {
+    const canvas = qrRef.current?.querySelector("canvas");
+    if (canvas) {
+      const url = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "qrcode.png";
+      link.click();
+    }
   };
 
   return (
@@ -38,15 +50,31 @@ const QRCodeGenerator = () => {
 
         {showQR && input && (
           <div className="mt-6 flex flex-col items-center gap-4">
-            <div className="bg-white p-4 border border-gray-300 rounded-md shadow">
-              <QRCodeCanvas value={input} size={200} bgColor="#FFFFFF" fgColor="#000000" />
-            </div>
-            <button
-              onClick={handleClear}
-              className="bg-slate-800 hover:text-orange-500 text-white px-4 py-2 rounded-md transition duration-300"
+            <div
+              ref={qrRef}
+              className="bg-white p-4 border border-gray-300 rounded-md shadow"
             >
-              Clear
-            </button>
+              <QRCodeCanvas
+                value={input}
+                size={200}
+                bgColor="#FFFFFF"
+                fgColor="#000000"
+              />
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={handleClear}
+                className="bg-slate-800 hover:text-orange-500 text-white px-4 py-2 rounded-md transition duration-300"
+              >
+                Clear
+              </button>
+              <button
+                onClick={handleDownload}
+                className="bg-slate-800 hover:text-green-400 text-white px-4 py-2 rounded-md transition duration-300"
+              >
+                Download
+              </button>
+            </div>
           </div>
         )}
       </div>
