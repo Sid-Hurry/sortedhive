@@ -1,10 +1,11 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 
 const QRCodeGenerator = () => {
   const [input, setInput] = useState("");
   const [showQR, setShowQR] = useState(false);
+  const [toast, setToast] = useState({ message: "", visible: false, type: "success" });
   const qrRef = useRef(null);
 
   const handleClear = () => {
@@ -23,8 +24,25 @@ const QRCodeGenerator = () => {
     }
   };
 
+  const handleGenerate = () => {
+    if (!input.trim()) {
+      showToast("Please enter something", "error");
+      setShowQR(false);
+      return;
+    }
+    setShowQR(true);
+    showToast("QR Code generated successfully!", "success");
+  };
+
+  const showToast = (message, type) => {
+    setToast({ message, visible: true, type });
+    setTimeout(() => {
+      setToast({ ...toast, visible: false });
+    }, 3000);
+  };
+
   return (
-    <div className="min-h-screen bg-white px-4 sm:px-6 md:px-10 py-10 font-gill text-gray-800 select-none">
+    <div className="min-h-screen bg-white px-4 sm:px-6 md:px-10 py-10 font-gill text-gray-800 select-none relative">
       <div className="max-w-xl w-full mx-auto text-center space-y-6">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold">
           QR Code Generator
@@ -42,7 +60,7 @@ const QRCodeGenerator = () => {
         />
 
         <button
-          onClick={() => setShowQR(true)}
+          onClick={handleGenerate}
           className="w-full sm:w-auto bg-slate-800 hover:bg-stone-700 text-white px-6 py-2 rounded-md transition duration-300"
         >
           Generate QR Code
@@ -78,6 +96,16 @@ const QRCodeGenerator = () => {
           </div>
         )}
       </div>
+
+      {/* Toast */}
+      {toast.visible && (
+        <div
+          className={`fixed bottom-6 right-6 px-4 py-3 rounded-md shadow-lg text-white text-sm transition-all duration-300
+            ${toast.type === "success" ? "bg-green-600" : "bg-red-600"}`}
+        >
+          {toast.message}
+        </div>
+      )}
     </div>
   );
 };
