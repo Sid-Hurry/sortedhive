@@ -4,7 +4,7 @@ import { QRCodeCanvas } from "qrcode.react";
 
 const QRCodeGenerator = () => {
   const [input, setInput] = useState("");
-  const [generatedValue, setGeneratedValue] = useState(""); // Store finalized QR value
+  const [generatedValue, setGeneratedValue] = useState("");
   const [showQR, setShowQR] = useState(false);
   const [toast, setToast] = useState({ message: "", visible: false, type: "success" });
   const qrRef = useRef(null);
@@ -32,8 +32,8 @@ const QRCodeGenerator = () => {
       setShowQR(false);
       return;
     }
-    setGeneratedValue(input); // freeze current input for QR
-    setInput("");             // clear the field
+    setGeneratedValue(input);
+    setInput(""); // Clear input
     setShowQR(true);
     showToast("QR Code generated successfully!", "success");
   };
@@ -58,7 +58,10 @@ const QRCodeGenerator = () => {
         <input
           type="text"
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={(e) => {
+            setInput(e.target.value);
+            setShowQR(false); // 🔥 Hide QR when typing starts again
+          }}
           placeholder="Enter URL or text"
           className="w-full p-3 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-slate-400 transition duration-300"
         />
