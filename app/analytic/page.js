@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import FloatingChatBot from '@/components/chatbot';
 
 const AnalyticsPage = () => {
   return (
@@ -55,6 +56,7 @@ const AnalyticsPage = () => {
           </Link>
         </div>
       </div>
+      <FloatingChatBot />
     </div>
   );
 };

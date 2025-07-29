@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
+import FloatingChatBot from '@/components/chatbot';
 
 const QRCodeGenerator = () => {
   const [input, setInput] = useState("");
@@ -104,6 +105,7 @@ const QRCodeGenerator = () => {
         )}
       </div>
 
+      <FloatingChatBot />
       {/* Toast */}
       {toast.visible && (
         <div
