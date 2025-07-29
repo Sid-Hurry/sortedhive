@@ -2,6 +2,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import FloatingChatBot from '@/components/chatbot';
 
 const Page = () => {
   return (
@@ -76,6 +77,7 @@ const Page = () => {
             Analytics (Beta)
           </Link>
         </div>
+        <FloatingChatBot />
       </div>
     </div>
   )
