@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-
+import FloatingChatBot from "@/components/chatbot";
 export default function Home() {
   return (
     <div className="px-4 sm:px-6 md:px-12 lg:px-20 xl:px-32 py-12 select-none">
@@ -37,6 +37,7 @@ export default function Home() {
           />
         </div>
       </section>
+      <FloatingChatBot />
     </div>
   );
 }
