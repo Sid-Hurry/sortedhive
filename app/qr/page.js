@@ -61,7 +61,7 @@ const QRCodeGenerator = () => {
           value={input}
           onChange={(e) => {
             setInput(e.target.value);
-            setShowQR(false); // 🔥 Hide QR when typing starts again
+            setShowQR(false); // Hide QR when typing starts again
           }}
           placeholder="Enter URL or text"
           className="w-full p-3 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-slate-400 transition duration-300"
@@ -106,10 +106,11 @@ const QRCodeGenerator = () => {
       </div>
 
       <FloatingChatBot />
-      {/* Toast */}
+
+      {/* Toast shifted to bottom-left */}
       {toast.visible && (
         <div
-          className={`fixed bottom-6 right-6 max-w-xs w-auto px-4 py-3 rounded-md shadow-lg text-white text-sm transition-all duration-300
+          className={`fixed bottom-6 left-6 max-w-xs w-auto px-4 py-3 rounded-md shadow-lg text-white text-sm transition-all duration-300
             bg-slate-800 border-l-4 ${
               toast.type === "success" ? "border-l-green-400" : "border-l-orange-400"
             }`}
