@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import FloatingChatBot from '@/components/chatbot';
 
 export default function Contact() {
   return (
@@ -102,6 +103,7 @@ export default function Contact() {
           </div>
         </form>
       </div>
+      <FloatingChatBot />
     </div>
   );
 }
