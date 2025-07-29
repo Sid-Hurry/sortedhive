@@ -27,7 +27,7 @@ const Page = () => {
             SortedHive is a simple and fast URL shortener and QR code generator
             that helps you turn long, messy links into short, clean ones and scannable codes.
             Whether you are sharing links on social media, managing campaigns,
-            or just want cleaner URLs — SortedHive gets it done in seconds.
+            or just want cleaner URLs to share, SortedHive gets it done in seconds.
           </p>
           <p className="mt-4 font-bold text-xl sm:text-2xl">
             Curious to try it out? Just click the logo to get started!
