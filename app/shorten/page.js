@@ -1,6 +1,7 @@
 "use client";
 import Link from 'next/link';
 import React, { useState } from 'react';
+import FloatingChatBot from '@/components/chatbot';
 
 const Shorten = () => {
   const [url, seturl] = useState("");
@@ -88,6 +89,7 @@ const Shorten = () => {
           </Link>
         </p>
       )}
+      <FloatingChatBot />
 
       {toastVisible && (
         <div className="fixed bottom-6 right-4 sm:right-8 bg-slate-800 text-white px-4 py-2 rounded-md shadow-lg animate-slide-up z-50 text-sm sm:text-base">
@@ -96,6 +98,7 @@ const Shorten = () => {
       )}
     </div>
   );
+  
 };
 
 export default Shorten;
