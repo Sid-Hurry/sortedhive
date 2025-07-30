@@ -1,49 +1,46 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { Copy } from 'lucide-react';
-import FloatingChatBot from '@/components/chatbot';
 
 const TextAndFileTools = () => {
   const [textInput, setTextInput] = useState('');
   const [convertedText, setConvertedText] = useState('');
   const [showCopy, setShowCopy] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-  const [toastType, setToastType] = useState('success'); // 'success' | 'error'
   const [showToast, setShowToast] = useState(false);
+  const [toastType, setToastType] = useState('success'); // 'success' or 'warning'
 
-  const showToastMessage = (message, type) => {
+  // Function to show toast with message and type
+  const triggerToast = (message, type = 'success') => {
     setToastMessage(message);
     setToastType(type);
     setShowToast(true);
-
-    setTimeout(() => {
-      setShowToast(false);
-    }, 2500);
+    setTimeout(() => setShowToast(false), 2000);
   };
 
   const toUpper = () => {
     if (!textInput.trim()) {
-      showToastMessage('Please enter something', 'error');
+      triggerToast('Please enter something', 'warning');
       return;
     }
-    setConvertedText(textInput.toUpperCase());
+    const result = textInput.toUpperCase();
+    setConvertedText(result);
     setShowCopy(true);
-    showToastMessage('Converted to Uppercase', 'success');
   };
 
   const toLower = () => {
     if (!textInput.trim()) {
-      showToastMessage('Please enter something', 'error');
+      triggerToast('Please enter something', 'warning');
       return;
     }
-    setConvertedText(textInput.toLowerCase());
+    const result = textInput.toLowerCase();
+    setConvertedText(result);
     setShowCopy(true);
-    showToastMessage('Converted to Lowercase', 'success');
   };
 
   const toSlug = () => {
     if (!textInput.trim()) {
-      showToastMessage('Please enter something', 'error');
+      triggerToast('Please enter something', 'warning');
       return;
     }
     const result = textInput
@@ -53,16 +50,11 @@ const TextAndFileTools = () => {
       .replace(/[\s_-]+/g, '-');
     setConvertedText(result);
     setShowCopy(true);
-    showToastMessage('Converted to Slug', 'success');
   };
 
   const copyToClipboard = () => {
-    if (!convertedText.trim()) {
-      showToastMessage('Nothing to copy', 'error');
-      return;
-    }
     navigator.clipboard.writeText(convertedText);
-    showToastMessage('Copied to clipboard', 'success');
+    triggerToast('Copied to clipboard!', 'success');
   };
 
   return (
@@ -73,18 +65,31 @@ const TextAndFileTools = () => {
         <textarea
           rows={5}
           value={textInput}
-          onChange={(e) => setTextInput(e.target.value)}
+          onChange={(e) => {
+            setTextInput(e.target.value);
+            setConvertedText('');
+            setShowCopy(false);
+          }}
           className="w-full p-3 rounded-md bg-gray-50 border border-gray-200 text-base shadow-sm mb-4 focus:outline-none focus:ring-1 focus:ring-slate-300"
           placeholder="Enter your text"
         />
         <div className="flex flex-wrap gap-3 mb-4">
-          <button onClick={toUpper} className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm sm:text-base hover:opacity-90">
+          <button
+            onClick={toUpper}
+            className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm sm:text-base hover:opacity-90"
+          >
             Uppercase
           </button>
-          <button onClick={toLower} className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm sm:text-base hover:opacity-90">
+          <button
+            onClick={toLower}
+            className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm sm:text-base hover:opacity-90"
+          >
             Lowercase
           </button>
-          <button onClick={toSlug} className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm sm:text-base hover:opacity-90">
+          <button
+            onClick={toSlug}
+            className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm sm:text-base hover:opacity-90"
+          >
             Slugify
           </button>
         </div>
@@ -92,7 +97,7 @@ const TextAndFileTools = () => {
         {convertedText && (
           <div className="relative">
             <p className="font-medium text-gray-700 mb-1">Converted Text:</p>
-            <div className="bg-gray-100 p-3 rounded-md text-gray-800 relative pr-10 overflow-x-auto break-words">
+            <div className="bg-gray-100 p-3 rounded-md text-gray-800 relative pr-10 overflow-x-auto">
               {convertedText}
               {showCopy && (
                 <button
@@ -107,16 +112,16 @@ const TextAndFileTools = () => {
         )}
       </div>
 
-      <FloatingChatBot />
-
       {/* Toast Message */}
       {showToast && (
-        <div className="fixed bottom-4 left-4 sm:left-6 z-50 flex items-center max-w-[90%] sm:max-w-xs shadow-lg rounded-md overflow-hidden animate-fade-in-up">
+        <div className="fixed bottom-4 left-4 sm:left-6 z-50 flex items-center max-w-[90%] sm:max-w-xs shadow-lg rounded-md overflow-hidden">
+          {/* Colored side bar */}
           <div
             className={`w-1.5 h-full ${
               toastType === 'success' ? 'bg-green-500' : 'bg-orange-500'
             }`}
           />
+          {/* Toast content */}
           <div className="bg-[#1e293b] text-white px-3 py-2 text-sm font-semibold w-full break-words">
             {toastMessage}
           </div>
