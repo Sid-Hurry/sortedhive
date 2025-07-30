@@ -123,7 +123,7 @@ const TextAndFileTools = () => {
           <button onClick={toSlug} className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm hover:opacity-90">Slugify</button>
           <button onClick={toCamelCase} className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm hover:opacity-90">CamelCase</button>
           <button onClick={toTitleCase} className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm hover:opacity-90">Title Case</button>
-          <button onClick={toSentenceCase} className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm hover:opacity-90">Sentence Case</button>
+          {/* <button onClick={toSentenceCase} className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm hover:opacity-90">Sentence Case</button> */}
         </div>
 
         {convertedText && (
