@@ -1,6 +1,6 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import { Copy } from 'lucide-react';
+import React, { useState } from 'react';
+import { Copy, Trash2 } from 'lucide-react';
 
 const TextAndFileTools = () => {
   const [textInput, setTextInput] = useState('');
@@ -8,9 +8,8 @@ const TextAndFileTools = () => {
   const [showCopy, setShowCopy] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [showToast, setShowToast] = useState(false);
-  const [toastType, setToastType] = useState('success'); // 'success' or 'warning'
+  const [toastType, setToastType] = useState('success');
 
-  // Function to show toast with message and type
   const triggerToast = (message, type = 'success') => {
     setToastMessage(message);
     setToastType(type);
@@ -18,31 +17,28 @@ const TextAndFileTools = () => {
     setTimeout(() => setShowToast(false), 2000);
   };
 
-  const toUpper = () => {
+  const handleEmptyCheck = () => {
     if (!textInput.trim()) {
       triggerToast('Please enter something', 'warning');
-      return;
+      return true;
     }
-    const result = textInput.toUpperCase();
-    setConvertedText(result);
+    return false;
+  };
+
+  const toUpper = () => {
+    if (handleEmptyCheck()) return;
+    setConvertedText(textInput.toUpperCase());
     setShowCopy(true);
   };
 
   const toLower = () => {
-    if (!textInput.trim()) {
-      triggerToast('Please enter something', 'warning');
-      return;
-    }
-    const result = textInput.toLowerCase();
-    setConvertedText(result);
+    if (handleEmptyCheck()) return;
+    setConvertedText(textInput.toLowerCase());
     setShowCopy(true);
   };
 
   const toSlug = () => {
-    if (!textInput.trim()) {
-      triggerToast('Please enter something', 'warning');
-      return;
-    }
+    if (handleEmptyCheck()) return;
     const result = textInput
       .toLowerCase()
       .replace(/[^\w\s-]/g, '')
@@ -50,6 +46,45 @@ const TextAndFileTools = () => {
       .replace(/[\s_-]+/g, '-');
     setConvertedText(result);
     setShowCopy(true);
+  };
+
+  const toCamelCase = () => {
+    if (handleEmptyCheck()) return;
+    const result = textInput
+      .toLowerCase()
+      .replace(/[^a-zA-Z0-9 ]/g, '')
+      .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) =>
+        index === 0 ? word.toLowerCase() : word.toUpperCase()
+      )
+      .replace(/\s+/g, '');
+    setConvertedText(result);
+    setShowCopy(true);
+  };
+
+  const toTitleCase = () => {
+    if (handleEmptyCheck()) return;
+    const result = textInput
+      .toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+    setConvertedText(result);
+    setShowCopy(true);
+  };
+
+  const toSentenceCase = () => {
+    if (handleEmptyCheck()) return;
+    const result = textInput
+      .toLowerCase()
+      .replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
+    setConvertedText(result);
+    setShowCopy(true);
+  };
+
+  const clearAll = () => {
+    setTextInput('');
+    setConvertedText('');
+    setShowCopy(false);
   };
 
   const copyToClipboard = () => {
@@ -61,7 +96,16 @@ const TextAndFileTools = () => {
     <div className="max-w-2xl mx-auto px-4 py-10 flex flex-col gap-10 font-gill">
       {/* Text Tools */}
       <div className="bg-white p-6 sm:p-8 rounded-xl shadow-md w-full">
-        <h2 className="text-2xl sm:text-3xl font-semibold mb-4 text-gray-800">Text Tools</h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800">Text Tools</h2>
+          <button
+            onClick={clearAll}
+            className="text-red-500 hover:text-red-700 flex items-center gap-1 text-sm sm:text-base"
+          >
+            <Trash2 size={18} />
+            Clear
+          </button>
+        </div>
         <textarea
           rows={5}
           value={textInput}
@@ -74,24 +118,12 @@ const TextAndFileTools = () => {
           placeholder="Enter your text"
         />
         <div className="flex flex-wrap gap-3 mb-4">
-          <button
-            onClick={toUpper}
-            className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm sm:text-base hover:opacity-90"
-          >
-            Uppercase
-          </button>
-          <button
-            onClick={toLower}
-            className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm sm:text-base hover:opacity-90"
-          >
-            Lowercase
-          </button>
-          <button
-            onClick={toSlug}
-            className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm sm:text-base hover:opacity-90"
-          >
-            Slugify
-          </button>
+          <button onClick={toUpper} className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm hover:opacity-90">Uppercase</button>
+          <button onClick={toLower} className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm hover:opacity-90">Lowercase</button>
+          <button onClick={toSlug} className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm hover:opacity-90">Slugify</button>
+          <button onClick={toCamelCase} className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm hover:opacity-90">CamelCase</button>
+          <button onClick={toTitleCase} className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm hover:opacity-90">Title Case</button>
+          <button onClick={toSentenceCase} className="bg-[#0f172a] text-white px-4 py-2 rounded-md text-sm hover:opacity-90">Sentence Case</button>
         </div>
 
         {convertedText && (
@@ -115,13 +147,11 @@ const TextAndFileTools = () => {
       {/* Toast Message */}
       {showToast && (
         <div className="fixed bottom-4 left-4 sm:left-6 z-50 flex items-center max-w-[90%] sm:max-w-xs shadow-lg rounded-md overflow-hidden">
-          {/* Colored side bar */}
           <div
             className={`w-1.5 h-full ${
               toastType === 'success' ? 'bg-green-500' : 'bg-orange-500'
             }`}
           />
-          {/* Toast content */}
           <div className="bg-[#1e293b] text-white px-3 py-2 text-sm font-semibold w-full break-words">
             {toastMessage}
           </div>
