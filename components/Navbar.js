@@ -24,6 +24,9 @@ const Navbar = () => {
           <li className="hover:scale-105 transition-transform duration-300">
             <Link href="/contact">Contact</Link>
           </li>
+          <li className="hover:scale-105 transition-transform duration-300">
+            <Link href="/texttool">Tools</Link>
+          </li>
           <li>
             <Link href="/shorten">
               <button className="bg-[#1F2937] text-[#F0FDFA] px-2 py-1 rounded-md cursor-pointer text-[16px] hover:bg-[#57534E] transition-colors duration-300 font-sans">
@@ -61,6 +64,9 @@ const Navbar = () => {
           </li>
           <li className="hover:scale-105 transition-transform duration-300">
             <Link href="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+          </li>
+           <li className="hover:scale-105 transition-transform duration-300">
+            <Link href="/texttool" onClick={() => setMenuOpen(false)}>Tools</Link>
           </li>
           <li>
             <Link href="/shorten" onClick={() => setMenuOpen(false)}>
