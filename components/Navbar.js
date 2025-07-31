@@ -81,29 +81,31 @@ const Navbar = () => {
           menuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <ul className="flex flex-col pt-4 px-4 gap-4 text-[18px] text-right">
-          <li className="hover:scale-105 transition-transform duration-300">
-            <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
-          </li>
-          <li className="hover:scale-105 transition-transform duration-300">
-            <Link href="/about" onClick={() => setMenuOpen(false)}>About</Link>
-          </li>
-          <li className="hover:scale-105 transition-transform duration-300">
-            <Link href="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
-          </li>
-          <li className="hover:scale-105 transition-transform duration-300">
-            <Link href="/texttool" onClick={() => setMenuOpen(false)}>Tools</Link>
-          </li>
-          <li>
+        <ul className="flex flex-col pt-4 px-4 gap-2 text-[18px] text-right">
+          {[
+            { label: "Home", href: "/" },
+            { label: "About", href: "/about" },
+            { label: "Contact", href: "/contact" },
+            { label: "Tools", href: "/texttool" },
+          ].map(({ label, href }) => (
+            <li
+              key={label}
+              className="bg-white border border-gray-200 px-4 py-2 rounded-md hover:bg-gray-100 transition"
+            >
+              <Link href={href} onClick={() => setMenuOpen(false)}>{label}</Link>
+            </li>
+          ))}
+
+          <li className="bg-white border border-gray-200 px-4 py-2 rounded-md">
             <Link href="/shorten" onClick={() => setMenuOpen(false)}>
-              <button className="bg-[#1F2937] text-[#F0FDFA] px-2 py-1 rounded-md cursor-pointer text-[16px] hover:bg-[#57534E] transition-colors duration-300 font-sans w-full text-right">
+              <button className="bg-[#1F2937] text-[#F0FDFA] w-full py-2 rounded-md cursor-pointer text-[16px] hover:bg-[#57534E] transition-colors duration-300 font-sans">
                 Shortener
               </button>
             </Link>
           </li>
-          <li>
+          <li className="bg-white border border-gray-200 px-4 py-2 rounded-md">
             <Link href="/qr" onClick={() => setMenuOpen(false)}>
-              <button className="bg-[#1F2937] text-[#F0FDFA] px-2 py-1 rounded-md cursor-pointer text-[16px] hover:bg-[#57534E] transition-colors duration-300 font-sans w-full text-right">
+              <button className="bg-[#1F2937] text-[#F0FDFA] w-full py-2 rounded-md cursor-pointer text-[16px] hover:bg-[#57534E] transition-colors duration-300 font-sans">
                 QR Code
               </button>
             </Link>
