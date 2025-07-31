@@ -1,9 +1,13 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import FloatingChatBot from "@/components/chatbot";
+import Lottie from "lottie-react";
+import animationData from "@/public/animations/Rocket research.json";
+
 export default function Home() {
   return (
-    <div className="px-4 sm:px-6 md:px-12 lg:px-20 xl:px-32 py-12 select-none">
+    <div className="px-4 sm:px-6 md:px-12 lg:px-20 xl:px-32 py-28 select-none">
       <section className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center font-gill">
         {/* === LEFT TEXT SIDE === */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left">
@@ -26,7 +30,7 @@ export default function Home() {
         </div>
 
         {/* === RIGHT IMAGE SIDE === */}
-        <div className="flex justify-center md:justify-end">
+        {/* <div className="flex justify-center md:justify-end">
           <Image
             className="mix-blend-darken w-64 sm:w-80 md:w-[480px] h-auto"
             src="/vecteezy_human-interactive-tech-interaction-images-of-robot-human_6552210-1-removebg-preview.png"
@@ -35,7 +39,10 @@ export default function Home() {
             height={450}
             priority
           />
-        </div>
+        </div> */}
+         <div className="w-full max-w-md mx-auto">
+      <Lottie animationData={animationData} loop={true} />
+    </div>
       </section>
       <FloatingChatBot />
     </div>
