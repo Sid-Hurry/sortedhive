@@ -7,7 +7,7 @@ import animationData from "@/public/animations/Rocket research.json";
 
 export default function Home() {
   return (
-    <div className="px-4 sm:px-6 md:px-12 lg:px-20 xl:px-32 py-22 select-none">
+    <div className="px-0 sm:px-6 md:px-12 lg:px-20 xl:px-32 py-22 select-none">
       <section className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center font-gill">
         {/* === LEFT TEXT SIDE === */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left">
