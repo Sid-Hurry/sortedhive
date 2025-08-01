@@ -1,28 +1,72 @@
-import { redirect } from "next/navigation";
-import clientPromise from "@/lib/mongodb";
-
+// app/[shorturl]/page.js
+import clientPromise from '../../lib/mongodb';
+import { redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
 export default async function Page({ params }) {
-  // Check if params is available
-  const shorturl = params?.shorturl;
+  // Await params before accessing properties (Next.js 15 requirement)
+  const resolvedParams = await params;
+  const shorturl = resolvedParams?.shorturl;
+
+  // If no shorturl parameter, show 404
+  if (!shorturl) {
+    notFound();
+  }
 
   try {
+    // Connect to MongoDB
     const client = await clientPromise;
     const db = client.db("bitlinks");
-    const collection = db.collection("url");
+    const collection = db.collection("urls");
 
-    const doc = await collection.findOne({ shorturl });
+    // Find the URL document by short code
+    const urlDocument = await collection.findOne({ 
+      shortCode: shorturl 
+    });
 
-    console.log("Fetched Document:", doc);
+    if (urlDocument) {
+      // Update analytics (optional)
+      await collection.updateOne(
+        { shortCode: shorturl },
+        { 
+          $inc: { clicks: 1 },
+          $set: { lastAccessed: new Date() },
+          $push: { 
+            clickHistory: {
+              timestamp: new Date(),
+              // You can add more analytics data here like IP, user agent, etc.
+            }
+          }
+        }
+      );
 
-    if (doc?.url) {
-      redirect(doc.url); // Redirect to original URL
+      // Ensure the URL has a protocol
+      let redirectUrl = urlDocument.originalUrl;
+      if (!redirectUrl.startsWith('http://') && !redirectUrl.startsWith('https://')) {
+        redirectUrl = 'https://' + redirectUrl;
+      }
+
+      // Redirect to the original URL
+      redirect(redirectUrl);
     } else {
-      console.warn("No document found. Redirecting to homepage.");
-      redirect(process.env.NEXT_PUBLIC_HOST || "/");
+      // Short URL not found in database
+      notFound();
     }
   } catch (error) {
-    console.error("Error during redirect lookup:", error);
-    redirect(process.env.NEXT_PUBLIC_HOST || "/");
+    console.error('Database error:', error);
+    // If there's a database error, show 404
+    notFound();
   }
+}
+
+// Optional: Add metadata for SEO
+export async function generateMetadata({ params }) {
+  const resolvedParams = await params;
+  const shorturl = resolvedParams?.shorturl;
+  
+  return {
+    title: `Redirecting... | ${shorturl}`,
+    description: 'You are being redirected to the original URL.',
+    robots: 'noindex, nofollow',
+  };
 }
