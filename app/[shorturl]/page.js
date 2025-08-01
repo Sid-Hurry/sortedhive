@@ -13,50 +13,54 @@ export default async function Page({ params }) {
     notFound();
   }
 
+  let client, db, collection, urlDocument;
+
   try {
     // Connect to MongoDB
-    const client = await clientPromise;
-    const db = client.db("bitlinks");
-    const collection = db.collection("urls");
+    client = await clientPromise;
+    db = client.db("bitlinks");
+    collection = db.collection("urls");
 
     // Find the URL document by short code
-    const urlDocument = await collection.findOne({ 
+    urlDocument = await collection.findOne({ 
       shortCode: shorturl 
     });
-
-    if (urlDocument) {
-      // Update analytics (optional)
-      await collection.updateOne(
-        { shortCode: shorturl },
-        { 
-          $inc: { clicks: 1 },
-          $set: { lastAccessed: new Date() },
-          $push: { 
-            clickHistory: {
-              timestamp: new Date(),
-              // You can add more analytics data here like IP, user agent, etc.
-            }
-          }
-        }
-      );
-
-      // Ensure the URL has a protocol
-      let redirectUrl = urlDocument.originalUrl;
-      if (!redirectUrl.startsWith('http://') && !redirectUrl.startsWith('https://')) {
-        redirectUrl = 'https://' + redirectUrl;
-      }
-
-      // Redirect to the original URL
-      redirect(redirectUrl);
-    } else {
-      // Short URL not found in database
-      notFound();
-    }
   } catch (error) {
-    console.error('Database error:', error);
-    // If there's a database error, show 404
+    console.error('Database connection error:', error);
     notFound();
   }
+
+  // If document not found, show 404
+  if (!urlDocument) {
+    notFound();
+  }
+
+  // Update analytics in background (don't await to avoid blocking redirect)
+  collection.updateOne(
+    { shortCode: shorturl },
+    { 
+      $inc: { clicks: 1 },
+      $set: { lastAccessed: new Date() },
+      $push: { 
+        clickHistory: {
+          timestamp: new Date(),
+          // You can add more analytics data here like IP, user agent, etc.
+        }
+      }
+    }
+  ).catch(error => {
+    console.error('Analytics update error:', error);
+    // Don't fail the redirect if analytics fail
+  });
+
+  // Ensure the URL has a protocol
+  let redirectUrl = urlDocument.originalUrl;
+  if (!redirectUrl.startsWith('http://') && !redirectUrl.startsWith('https://')) {
+    redirectUrl = 'https://' + redirectUrl;
+  }
+
+  // Redirect to the original URL
+  redirect(redirectUrl);
 }
 
 // Optional: Add metadata for SEO
